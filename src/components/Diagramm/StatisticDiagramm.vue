@@ -11,35 +11,32 @@
 export default {
   name: "StatisticDiagram",
   props: {
-    // Свойство которое принимает массив чисел, где:
-    // нулевой элемент - это: длина отрезка для видимой части stroke-dasharray
-    // элемент с индексом 1, это длина всего отрезка
-    // например из 78 яблок продано 25, значит пропс должен принять [25, 78]
+   
     dataDasharray: {
       type: Array,
       required: true,
     },
-    // Радиус, не обязательный пропс, можно указывать в любой единице измерения
+    
     radius: {
       type: String,
       default: "18",
     },
-    // Кастомный css класс для стилизации фоновой фигуры круга
+   
     classCircleBack: {
       type: String,
       default: "",
     },
-    // Кастомный css класс для стилизации внешнего круга
+    
     classCircleFront: {
       type: String,
       default: "",
     },
-    // Если нужна фигура спутник
+   
     satellite: {
       type: Boolean,
       default: false,
     },
-    // Если true то dashoffset будет отменён для диаграммы таймера
+   
     isTimer: {
       type: Boolean,
       default: false,
@@ -47,21 +44,21 @@ export default {
   },
   data() {
     return {
-      dasharray: "0 100", // начальные данные псевдомассива отрезка
-      dashoffset: "0", // Длина окружности для фигуры подложки
-      radiusBaseVal: 0, // про эту переменную чуть ниже
-      circumference: 0, // Длина окружности которую вычислим позже
+      dasharray: "0 100", 
+      dashoffset: "0", 
+      radiusBaseVal: 0, 
+      circumference: 0, 
     };
   },
 
-  // Вычисляемые свойства для анимации спутника
+ 
   computed: {
     rotate() {
-      // Поворот спутника относительно центра холста для инлайнового стиля
+    
       return `transform: rotate(${this.degRotate}deg);`;
     },
     degRotate() {
-      // Вычисляем градус поворота спутника, основываясь на пропсе dataDasharray
+      
       const percent = Number(
         ((this.dataDasharray[0] * 100) / this.dataDasharray[1]).toFixed(1)
       );
@@ -75,16 +72,16 @@ export default {
   watch: {
     dataDasharray: {
       handler() {
-        // вычисляем процентн данных из пропса dataDasharray
+        
         const percent = (
           (this.dataDasharray[0] * 100) /
           this.dataDasharray[1]
         ).toFixed(1);
-        // Сетим длину оффсетов для нашей диаграммы
+        
         this.setLengthDasharray(percent, this.circumference);
       },
-      deep: true, // Глубокое отслеживание пропса dataDasharray
-      immediate: true, // запуск handler функции при mounted компонента
+      deep: true, 
+      immediate: true,
     },
   },
   methods: {
